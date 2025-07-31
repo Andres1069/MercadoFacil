@@ -2,9 +2,6 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import mysql.connector
 
-# ==============================
-# CONEXIÓN BASE DE DATOS
-# ==============================
 def conectar_bd():
     return mysql.connector.connect(
         host="localhost",
@@ -13,18 +10,14 @@ def conectar_bd():
         database="mercado_digital"
     )
 
-# ==============================
-# PANEL DEL ADMINISTRADOR (como ventana secundaria)
-# ==============================
 def abrir_interfaz_admin(nombre_admin, master):
     ventana = tk.Toplevel(master)
     ventana.title("Panel de Administrador")
-    ventana.geometry("1000x500")
-    ventana.configure(bg="#f4f4f4")
+    ventana.geometry("1000x600")
+    ventana.configure(bg="#f0f0f0")
 
-    titulo = tk.Label(ventana, text=f"Bienvenido, {nombre_admin} (Administrador)",
-                      font=("Helvetica", 16, "bold"), bg="#f4f4f4")
-    titulo.pack(pady=10)
+    tk.Label(ventana, text=f"Bienvenido, {nombre_admin} (Administrador)",
+             font=("Helvetica", 16, "bold"), bg="#f0f0f0").pack(pady=10)
 
     columnas = ("ID", "Documento", "Nombre", "Apellido", "Correo", "Teléfono", "Barrio", "Dirección", "Rol")
     tree = ttk.Treeview(ventana, columns=columnas, show="headings")
@@ -63,6 +56,10 @@ def abrir_interfaz_admin(nombre_admin, master):
         entry.grid(row=i // 3, column=(i % 3) * 2 + 1, padx=5, pady=3)
         entradas[campo.lower()] = entry
 
+    def limpiar_formulario():
+        for campo in entradas.values():
+            campo.delete(0, tk.END)
+
     def crear_usuario():
         datos = {k: v.get().strip() for k, v in entradas.items()}
         if "" in datos.values():
@@ -76,12 +73,14 @@ def abrir_interfaz_admin(nombre_admin, master):
                 VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """, (
                 datos["num_doc"], datos["nombre"], datos["apellido"], datos["correo"],
-                datos["contraseña"], datos["telefono"], datos["barrio"],
-                datos["direccion"], datos["rol"]
+                datos["contraseña"], datos["telefono"], datos["barrio"], datos["direccion"], datos["rol"]
             ))
             conn.commit()
             cargar_usuarios()
+            limpiar_formulario()
             messagebox.showinfo("Éxito", "Usuario creado correctamente.")
+        except mysql.connector.IntegrityError:
+            messagebox.showerror("Error", "Documento o correo ya registrado.")
         except mysql.connector.Error as err:
             messagebox.showerror("Error", str(err))
         finally:
@@ -96,14 +95,14 @@ def abrir_interfaz_admin(nombre_admin, master):
             return
         valores = tree.item(seleccionado, "values")
         id_usuario = valores[0]
-        confirm = messagebox.askyesno("Confirmar", f"¿Eliminar usuario ID {id_usuario}?")
-        if confirm:
+        if messagebox.askyesno("Confirmar", f"¿Eliminar usuario ID {id_usuario}?"):
             try:
                 conn = conectar_bd()
                 cursor = conn.cursor()
                 cursor.execute("DELETE FROM usuario WHERE Id = %s", (id_usuario,))
                 conn.commit()
                 cargar_usuarios()
+                limpiar_formulario()
                 messagebox.showinfo("Eliminado", "Usuario eliminado correctamente.")
             except mysql.connector.Error as err:
                 messagebox.showerror("Error", str(err))
@@ -136,6 +135,7 @@ def abrir_interfaz_admin(nombre_admin, master):
             ))
             conn.commit()
             cargar_usuarios()
+            limpiar_formulario()
             messagebox.showinfo("Actualizado", "Usuario actualizado correctamente.")
         except mysql.connector.Error as err:
             messagebox.showerror("Error", str(err))
@@ -159,17 +159,22 @@ def abrir_interfaz_admin(nombre_admin, master):
         ventana.destroy()
         master.deiconify()
 
-    botones_frame = tk.Frame(ventana, bg="#f4f4f4")
+    botones_frame = tk.Frame(ventana, bg="#f0f0f0")
     botones_frame.pack(pady=10)
 
-    tk.Button(botones_frame, text="Crear Usuario", command=crear_usuario,
+    tk.Button(botones_frame, text="Nuevo", command=limpiar_formulario,
+              bg="#FF9800", fg="white", width=15).pack(side="left", padx=5)
+
+    tk.Button(botones_frame, text="Crear", command=crear_usuario,
               bg="#4CAF50", fg="white", width=15).pack(side="left", padx=5)
 
-    tk.Button(botones_frame, text="Editar Usuario", command=editar_usuario,
+    tk.Button(botones_frame, text="Editar", command=editar_usuario,
               bg="#2196F3", fg="white", width=15).pack(side="left", padx=5)
 
-    tk.Button(botones_frame, text="Eliminar Usuario", command=eliminar_usuario,
+    tk.Button(botones_frame, text="Eliminar", command=eliminar_usuario,
               bg="#f44336", fg="white", width=15).pack(side="left", padx=5)
 
     tk.Button(botones_frame, text="Cerrar Sesión", command=cerrar_sesion,
               bg="#9E9E9E", fg="white", width=15).pack(side="left", padx=5)
+
+    ventana.mainloop()

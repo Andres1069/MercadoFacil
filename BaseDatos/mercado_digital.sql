@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-07-2025 a las 18:58:54
+-- Tiempo de generación: 31-07-2025 a las 13:44:30
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -289,8 +289,7 @@ INSERT INTO `usuario` (`Id`, `Num_Doc`, `Nombre`, `Apellido`, `Contraseña`, `Te
 (7, '1001001007', 'Daniel', 'Ramírez', 'dani2025', '3067788990', 'daniel@ejemplo.com', 'Chicalá', 'Calle 65 #72-20', 'Cliente'),
 (8, '1001001008', 'Camila', 'Restrepo', 'camila123', '3078899001', 'camila@ejemplo.com', 'Chicalá', 'Carrera 37 #48-90', 'Cliente'),
 (9, '1001001009', 'Pedro', 'Suárez', 'pedrito2025', '3089900112', 'pedro@ejemplo.com', 'Chicalá', 'Calle 80 #60-10', 'Cliente'),
-(10, '1001001010', 'Laura', 'Morales', 'lauraPass', '3091011121', 'laura@ejemplo.com', 'Chicalá', 'Carrera 50 #20-25', 'Cliente'),
-(11, '1069582666', 'Raul Andres', 'Gonzalez Cifuentes', '3244314271', 'Teusaquillo', 'user', 'Calle 100 #45-80', 'Calle 50 #30 - 25', 'Usuario');
+(10, '1001001010', 'Laura', 'Morales', 'lauraPass', '3091011121', 'laura@ejemplo.com', 'Chicalá', 'Carrera 50 #20-25', 'Cliente');
 
 -- --------------------------------------------------------
 
@@ -444,7 +443,7 @@ ALTER TABLE `producto`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_pedido`

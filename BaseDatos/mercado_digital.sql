@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-07-2025 a las 13:44:30
+-- Tiempo de generación: 01-08-2025 a las 19:08:22
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -235,7 +235,7 @@ CREATE TABLE `producto` (
   `Precio` int(11) NOT NULL,
   `Cantidad` int(11) NOT NULL,
   `Fecha_vencimiento` datetime NOT NULL,
-  `Descripción` varchar(255) NOT NULL,
+  `Descripcion` varchar(255) NOT NULL,
   `imagen_url` varchar(255) DEFAULT NULL,
   `Cod_categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -244,7 +244,7 @@ CREATE TABLE `producto` (
 -- Volcado de datos para la tabla `producto`
 --
 
-INSERT INTO `producto` (`Cod_Producto`, `Nombre`, `Precio`, `Cantidad`, `Fecha_vencimiento`, `Descripción`, `imagen_url`, `Cod_categoria`) VALUES
+INSERT INTO `producto` (`Cod_Producto`, `Nombre`, `Precio`, `Cantidad`, `Fecha_vencimiento`, `Descripcion`, `imagen_url`, `Cod_categoria`) VALUES
 (1, 'Leche Alpina 1L', 4000, 20, '2025-12-31 00:00:00', 'Leche entera Alpina', NULL, 2),
 (2, 'Pan Bimbo Tradicional', 5500, 30, '2025-07-15 00:00:00', 'Pan de caja para desayunos', NULL, 5),
 (3, 'Arroz Diana 1kg', 4200, 50, '2026-01-10 00:00:00', 'Arroz blanco', NULL, 8),

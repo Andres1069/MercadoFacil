@@ -1,5 +1,6 @@
 import tkinter as tk
 import usuario_admin
+import usuario_cliente  # <-- Agrega esta línea
 from tkinter import messagebox
 from PIL import Image, ImageTk
 import mysql.connector
@@ -34,8 +35,8 @@ def iniciar_sesion():
                 root.withdraw()  # Oculta ventana principal
                 usuario_admin.abrir_interfaz_admin(nombre, root)
             else:
-                messagebox.showinfo("Login exitoso", f"Bienvenido {nombre} ({rol})")
-                mostrar_bienvenida(nombre, rol)
+                root.withdraw()  # Oculta ventana principal
+                usuario_cliente.abrir_interfaz_usuario(nombre, root)
         else:
             messagebox.showerror("Error", "Correo o contraseña incorrectos.")
 
@@ -46,7 +47,6 @@ def iniciar_sesion():
         if conn.is_connected():
             cursor.close()
             conn.close()
-
 # =========================
 # CERRAR SESIÓN
 # =========================

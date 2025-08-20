@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-08-2025 a las 19:08:22
+-- Tiempo de generación: 20-08-2025 a las 03:18:15
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,17 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `mercado_digital`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `boton_accceso`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `boton_accceso` (
+`Nombre` varchar(50)
+,`Contraseña` varchar(50)
+);
 
 -- --------------------------------------------------------
 
@@ -135,6 +146,19 @@ INSERT INTO `categoria` (`Cod_Categoria`, `Nombre`) VALUES
 (8, 'Granos'),
 (9, 'Licores'),
 (10, 'Snacks');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `demanda_servicios`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `demanda_servicios` (
+`Nombre` varchar(50)
+,`Apellido` varchar(50)
+,`Cod_pedido` int(11)
+,`Estado_Pedido` varchar(50)
+);
 
 -- --------------------------------------------------------
 
@@ -318,6 +342,24 @@ INSERT INTO `usuario_pedido` (`Cod_Genera`, `Id_Usuario`, `Cod_pedido`) VALUES
 (8, 8, 8),
 (9, 9, 9),
 (10, 10, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `boton_accceso`
+--
+DROP TABLE IF EXISTS `boton_accceso`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `boton_accceso`  AS SELECT `usuario`.`Nombre` AS `Nombre`, `usuario`.`Contraseña` AS `Contraseña` FROM `usuario` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `demanda_servicios`
+--
+DROP TABLE IF EXISTS `demanda_servicios`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `demanda_servicios`  AS SELECT `usuario`.`Nombre` AS `Nombre`, `usuario`.`Apellido` AS `Apellido`, `usuario_pedido`.`Cod_pedido` AS `Cod_pedido`, `pedido`.`Estado_Pedido` AS `Estado_Pedido` FROM ((`usuario` join `usuario_pedido` on(`usuario`.`Id` = `usuario_pedido`.`Id_Usuario`)) join `pedido` on(`usuario_pedido`.`Cod_Genera` = `pedido`.`Cod_Pedido`)) WHERE `pedido`.`Estado_Pedido` = 'Pendiente' ;
 
 --
 -- Índices para tablas volcadas
